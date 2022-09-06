@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.me.com/schema/lsf"
+        elementFormDefault="qualified">
+
+    <element name="registry">
+        <complexType>
+            <attribute name="id" type="string"/>
+            <attribute name="host" type="string"/>
+            <attribute name="port" type="string"/>
+        </complexType>
+    </element>
+    <element name="provider">
+        <complexType>
+            <attribute name="id" type="string"/>
+            <attribute name="alias" type="string"/>
+            <attribute name="interface" type="string"/>
+            <attribute name="ref" type="string"/>
+            <attribute name="registry" type="string"/>
+        </complexType>
+    </element>
+    <element name="consumer">
+        <complexType>
+            <attribute name="id" type="string"/>
+            <attribute name="alias" type="string"/>
+            <attribute name="interface" type="string"/>
+            <attribute name="registry" type="string"/>
+        </complexType>
+    </element>
+</schema>

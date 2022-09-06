@@ -1,0 +1,16 @@
+*.class
+.classpath
+.project
+.settings/
+.myyumdata
+webapp/WEB-INF/classes/
+out
+.idea
+.idea/
+*.iml
+lib
+writefile
+target
+app
+*.log
+*.http
