@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service("helloWorldService")
 public class HelloWorldServiceImpl implements HelloWorldService {
 
     private static Logger logger = LoggerFactory.getLogger(HelloWorldServiceImpl.class);

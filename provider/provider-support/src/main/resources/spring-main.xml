@@ -19,6 +19,6 @@
     <lsf:provider id="helloWorldServiceLsf" alias="test"
                   interface="com.me.lsf.provider.api.HelloWorldService"
                   registry="registry"
-                  ref="helloWorldServiceImpl"/>
+                  ref="helloWorldService"/>
 
 </beans>
