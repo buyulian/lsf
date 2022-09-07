@@ -12,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ConsumerMain {
 
@@ -24,28 +25,21 @@ public class ConsumerMain {
 
         HelloWorldService helloWorldService = (HelloWorldService) context.getBean("helloWorldService");
 
+        getObjByMultiObj(helloWorldService);
 
-//        String toString = helloWorldService.toString();
-//        logger.info(toString);
-//        logger.info("hashCode {}", helloWorldService.hashCode());
-//        logger.info("equals {}", helloWorldService.equals(helloWorldService));
+        logger.info("hello world exist");
+
+    }
+
+    private static void getBigList(HelloWorldService helloWorldService) {
+        List<HelloWorld> all = helloWorldService.getBigHelloWorlds();
+        logger.info("hello world getBigHelloWorlds is {}", all.size());
+    }
+
+    private static void getObjByMultiObj(HelloWorldService helloWorldService) {
         HelloWorld helloWorld = new HelloWorld();
         long id = 1236L;
         helloWorld.setId(id);
-//        HelloWorld helloWorldServiceById = helloWorldService.getById(id);
-//        String name = helloWorldServiceById.getName();
-//        logger.info("hello world name is "+name);
-//
-//
-//        HelloWorld helloWorldServiceByCondition = helloWorldService.getByCondition(helloWorld);
-//        logger.info("hello world name is "+helloWorldServiceByCondition.getName());
-
-//        Map<String, HelloWorld> helloWorldMap = helloWorldService.getMapByName();
-//        logger.info("hello world name is "+ JSON.toJSONString(helloWorldMap));
-
-
-        ResponseDto<HelloWorld, User> response = helloWorldService.getOneResponse();
-        logger.info("hello world name is "+ JSON.toJSONString(response));
 
         HelloWorld helloWorld3 = new HelloWorld();
         helloWorld3.setId(253L);
@@ -65,27 +59,38 @@ public class ConsumerMain {
                 dto,
                 helloWorldList);
         logger.info("hello world name is "+ JSON.toJSONString(response2));
+    }
 
-        List<HelloWorld> all = helloWorldService.getBigHelloWorlds();
-        logger.info("hello world getBigHelloWorlds is {}", all.size());
+    private static void getAllList(HelloWorldService helloWorldService, HelloWorld helloWorld) {
+        List<HelloWorld> all = helloWorldService.getAll();
+        for (HelloWorld world : all) {
+            logger.info("hello world name is "+ JSON.toJSONString(world));
+        }
+        logger.info("hello world name is "+ JSON.toJSONString(all));
 
-//        List<HelloWorld> all = helloWorldService.getAll();
-//        for (HelloWorld world : all) {
-//            logger.info("hello world name is "+ JSON.toJSONString(world));
-//        }
-//        logger.info("hello world name is "+ JSON.toJSONString(all));
+        logger.info("hello world name is "+ JSON.toJSONString(helloWorldService.getNameById(365L)));
 
-//        logger.info("hello world name is "+ JSON.toJSONString(helloWorldService.getNameById(365L)));
-//
-//        helloWorldService.add(helloWorld);
-//        logger.info("hello world name is add");
-//
-//        logger.info("hello world name is "+ JSON.toJSONString(helloWorldService.getIdByName("null")));
-//
-        logger.info("hello world exist");
+        helloWorldService.add(helloWorld);
+        logger.info("hello world name is add");
 
-//        CommonUtils.holdThread();
+        logger.info("hello world name is "+ JSON.toJSONString(helloWorldService.getIdByName("null")));
+    }
 
+    private static void getById(HelloWorldService helloWorldService, HelloWorld helloWorld, long id) {
+        HelloWorld helloWorldServiceById = helloWorldService.getById(id);
+        String name = helloWorldServiceById.getName();
+        logger.info("hello world name is "+name);
+
+
+        HelloWorld helloWorldServiceByCondition = helloWorldService.getByCondition(helloWorld);
+        logger.info("hello world name is "+helloWorldServiceByCondition.getName());
+
+        Map<String, HelloWorld> helloWorldMap = helloWorldService.getMapByName();
+        logger.info("hello world name is "+ JSON.toJSONString(helloWorldMap));
+
+
+        ResponseDto<HelloWorld, User> response = helloWorldService.getOneResponse();
+        logger.info("hello world name is "+ JSON.toJSONString(response));
     }
 
 

@@ -132,7 +132,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     public List<HelloWorld> getBigHelloWorlds() {
         List<HelloWorld> helloWorldList = new LinkedList<>();
 
-        for (int i = 0; i < 9999; i++) {
+        for (int i = 0; i < 5; i++) {
             HelloWorld helloWorld = new HelloWorld();
             helloWorld.setId((long) i);
             helloWorld.setName("abc"+i);
