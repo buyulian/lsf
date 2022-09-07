@@ -10,7 +10,7 @@ public class RpcParam {
 
     private String[] args;
 
-    private String serializeType = SerializeTypeEnum.JSON.getCode();
+    private String serializeType = SerializeTypeEnum.JSON_AUTO_TYPE.getCode();
 
     public String getrClass() {
         return rClass;
