@@ -26,6 +26,7 @@ public class ConsumerBeanInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
+        //获取调用的类
         Class tClass = consumerbean.getInterfaceClass();
 
         String canonicalName = tClass.getCanonicalName();
@@ -40,20 +41,28 @@ public class ConsumerBeanInvocationHandler implements InvocationHandler {
         }
         logger.debug("执行了 rpc 调用, class {}, method {}, args {}",canonicalName, methodName, Arrays.toString(args));
 
+        //获取序列化方式
         String serializeType = consumerbean.getSerializeType();
+
+        //组装 rpc 参数
         RpcParam rpcParam = getRpcParam(args, canonicalName, methodName, serializeType, method);
 
+        //获取可用的生产者连接
         LsfConnection connection = consumerbean.getConnection();
 
+        //调用并得到字符串结果
         String rpcResponseParamStr = getBody(rpcParam, connection);
 
         RpcResponseParam rpcResponseParam = JSON.parseObject(rpcResponseParamStr, RpcResponseParam.class);
 
         if (ErrorCodeEnum.SUCCESS.getCode().equals(rpcResponseParam.getCode())) {
+            //获取序列化处理类
             LsfSerialize lsfSerialize = LsfSerializeFactory.get(serializeType);
+            //反序列化结果
             Object result = lsfSerialize.deSerializeResult(method, rpcResponseParam.getResult());
             return result;
         } else {
+            //生产者抛出的异常处理
             throw new RuntimeException(rpcResponseParam.getException());
         }
 
@@ -70,6 +79,7 @@ public class ConsumerBeanInvocationHandler implements InvocationHandler {
 
         String rpcBody = JSON.toJSONString(rpcParam);
         clientParam.setBody(rpcBody);
+        // netty 执行网络调用
         return client.post(clientParam);
     }
 
@@ -81,8 +91,10 @@ public class ConsumerBeanInvocationHandler implements InvocationHandler {
         rpcParam.setMethod(methodName);
         rpcParam.setSerializeType(serializeType);
 
+        //获取序列化方式
         LsfSerialize lsfSerialize = LsfSerializeFactory.get(serializeType);
 
+        //序列化参数
         String[] argsStrs = lsfSerialize.serializeParam(method, args);
 
         rpcParam.setArgs(argsStrs);

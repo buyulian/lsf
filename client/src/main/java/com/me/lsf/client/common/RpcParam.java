@@ -4,12 +4,24 @@ import com.me.lsf.common.http.serialize.SerializeTypeEnum;
 
 public class RpcParam {
 
+    /**
+     * 调用类
+     */
     private String rClass;
 
+    /**
+     * 调用方法
+     */
     private String method;
 
+    /**
+     * 参数列表
+     */
     private String[] args;
 
+    /**
+     * 序列化方式
+     */
     private String serializeType = SerializeTypeEnum.JSON_AUTO_TYPE.getCode();
 
     public String getrClass() {

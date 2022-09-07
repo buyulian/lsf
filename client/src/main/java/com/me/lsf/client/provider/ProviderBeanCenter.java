@@ -93,6 +93,7 @@ public class ProviderBeanCenter {
 
         logger.info("center asyncDeal request {}",body);
 
+        //解析 rpc 调用参数
         RpcParam rpcParam = JSON.parseObject(body, RpcParam.class);
 
         String rClassStr = rpcParam.getrClass();
@@ -112,6 +113,7 @@ public class ProviderBeanCenter {
         try {
             Method declaredMethod = null;
 
+            //通过反射获取rpc调用的方法
             Method[] declaredMethods = aClass.getDeclaredMethods();
             for (Method declaredMethod1 : declaredMethods) {
                 if (declaredMethod1.getName().equals(method)) {
@@ -124,16 +126,22 @@ public class ProviderBeanCenter {
                 throw new RuntimeException("没有这个方法 " + method);
             }
 
+            //获取序列化实现类
             LsfSerialize lsfSerialize = LsfSerializeFactory.get(rpcParam.getSerializeType());
 
+            //反序列参数
             Object[] inArgs = lsfSerialize.deSerializeParam(declaredMethod, argsStr);
 
+            //调用实现类
             Object result = declaredMethod.invoke(provider, inArgs);
+
+            //序列化执行结果
             String result1 = lsfSerialize.serializeResult(declaredMethod, result);
             rpcResponseParam.setCode(ErrorCodeEnum.SUCCESS.getCode());
             rpcResponseParam.setResult(result1);
 
         } catch (Exception e) {
+            //若原始方法发生异常，则封装异常信息并返回给消费者
             rpcResponseParam.setCode(ErrorCodeEnum.EXCEPTION.getCode());
             rpcResponseParam.setException(e.toString());
             logger.error("lsf rpc exception rpc param {}", JSON.toJSONString(rpcParam), e);

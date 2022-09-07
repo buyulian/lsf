@@ -14,22 +14,49 @@ import java.util.List;
 
 public class Consumerbean {
 
+    /**
+     * 调用接口
+     */
     private Class interfaceClass;
 
+    /**
+     * 调用接口名
+     */
     private String interfaceName;
 
+    /**
+     * 别名
+     */
     private String alias;
 
+    /**
+     * 预留
+     */
     private Boolean register;
 
+    /**
+     * 存活生产者连接
+     */
     private List<LsfConnection> aliveConnectionList;
 
+    /**
+     * 手工指定生产者连接
+     */
     private List<LsfConnection> fixedConnectionList;
 
+    /**
+     * 预留
+     */
     private ParentObject parentObject;
 
+    /**
+     * 序列化方式
+     */
     private String serializeType = SerializeTypeEnum.JSON_AUTO_TYPE.getCode();
 
+    /**
+     * 注册中心 bean
+     */
     private RegistryBean registryBean;
 
     public Class getInterfaceClass() {
